@@ -1,0 +1,5 @@
+{
+  "name": "golang-serverless-cdk-template",
+  "region": "ap-southeast-2",
+  "lint": true
+}

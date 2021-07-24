@@ -1,0 +1,15 @@
+{
+  "devDependencies": {
+    "@aws-cdk/assert": "1.105.0",
+    "@aws-cdk/core": "1.105.0",
+    "@serverless-stack/cli": "0.31.0",
+    "@serverless-stack/resources": "0.31.0",
+    "@stoplight/spectral": "^5.9.1",
+    "dotenv-cli": "^4.0.0"
+  },
+  "engines": {
+    "node": "^14.15",
+    "npm": ">=6",
+    "yarn": "DO_NOT_USE"
+  }
+}
