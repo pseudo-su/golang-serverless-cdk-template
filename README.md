@@ -22,6 +22,14 @@ The [./openapi.yml](./openapi.yml) file contains the [OpenAPI](https://github.co
 
 ## Quick start
 
+Install global dependencies
+
+```sh
+# Install sam-cli beta
+brew tap aws/tap
+brew install aws-sam-cli-beta-cdk
+```
+
 ### Local config files
 
 ```sh
@@ -59,8 +67,8 @@ make devstack.start;
 # Run tests (some tests rely on having the DB running)
 make test;
 
-# Run the dev server (deploys some remote infra to AWS but executes the functions on your local machine).
-make dev.start;
+# Run the local dev server.
+make dev;
 ```
 
 At this point you should have a development version of this API project running that you can make API requests to from Postman 🎉.

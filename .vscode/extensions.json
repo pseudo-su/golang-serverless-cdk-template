@@ -12,7 +12,6 @@
     "yzhang.markdown-all-in-one",
     "pkief.material-icon-theme",
     "jebbs.plantuml",
-    "stoplight.spectral",
-    "amazonwebservices.aws-toolkit-vscode"
+    "stoplight.spectral"
   ]
 }

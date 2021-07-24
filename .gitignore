@@ -7,8 +7,10 @@
 # dotenv files
 /.env*.local
 
-# SST framework
-.build
+# Build files
+/.build
+/cdk.out
+/.aws-sam
 
 # NodeJS
 node_modules/
