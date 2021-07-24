@@ -51,22 +51,15 @@ devstack.restart: devstack.stop devstack.start
 .PHONY: devstack.recreate
 devstack.recreate: devstack.clean devstack.restart
 
-.PHONY: dev.start
-dev.start:
-	if [ -z "${STAGE}" ]; then echo "STAGE environment variable not set"; exit 1; fi
-	npx sst start --stage ${STAGE}
+.PHONY: dev
+dev:
+	sam-beta-cdk local start-api
 
-.PHONY: dev.stop
-dev.stop:
-	if [ -z "${STAGE}" ]; then echo "STAGE environment variable not set"; exit 1; fi
-	npx sst remove --stage ${STAGE}
+.PHONY: package
+package:
+	npx cdk synth
 
-.PHONY: dev.clean
-dev.clean:
-	rm -rf .build/
+.PHONY: deploy.dev
+deploy.dev:
+	npx cdk deploy --app=cdk.out 'Dev/*'
 
-.PHONY: dev.restart
-dev.restart: dev.stop dev.start
-
-.PHONY: dev.recreate
-dev.recreate: dev.clean dev.restart
