@@ -7,6 +7,8 @@ Some parts of this template still need to be improved upon
 - examples of handling known errors from the `persistence` package (eg 404 not found)
 - Better approach to running database migrations (currnetly implemented at a HTTP endpoint on the service to "Automigrate" the schema)
 - Simplify the `manage/leagues` package to have a single service with multiple methods
+- Unit testing examples demonstrating mocking
+- Integration test suite examles showing tests that integrate with the local DB
 
 ## Overview
 
