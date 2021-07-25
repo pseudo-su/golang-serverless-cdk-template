@@ -8,20 +8,7 @@ import (
 	"github.com/aws/aws-lambda-go/events"
 	validator "github.com/go-playground/validator/v10"
 	"github.com/sirupsen/logrus"
-	"gorm.io/gorm"
 )
-
-type SearchDispatcher struct {
-	leagueRepo *persistence.LeagueRepository
-	validate   *validator.Validate
-}
-
-func NewSearchDispatcher(db *gorm.DB) *SearchDispatcher {
-	return &SearchDispatcher{
-		leagueRepo: persistence.NewLeagueRepository(db),
-		validate:   validator.New(),
-	}
-}
 
 type SearchRequest struct {
 	Page  uint `json:"page" validate:"required,gte=1"`
@@ -61,7 +48,7 @@ func NewSearchRequest(event events.APIGatewayProxyRequest) (*SearchRequest, erro
 	return &request, nil
 }
 
-func (s *SearchDispatcher) SearchLeagues(req *SearchRequest) (*SearchResponse, error) {
+func (s *Service) SearchLeagues(req *SearchRequest) (*SearchResponse, error) {
 
 	err := s.validate.Struct(req)
 

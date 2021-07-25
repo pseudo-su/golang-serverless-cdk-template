@@ -27,7 +27,7 @@ func handlerFn(ctx context.Context, event events.APIGatewayProxyRequest) (*api.A
 
 	defer persistence.CloseConnection(db)
 
-	dispatcher := leagues.NewDeleteDispatcher(db)
+	service := leagues.NewService(db)
 
 	deleteLeagueRequest, err := leagues.NewDeleteRequest(event)
 
@@ -35,7 +35,7 @@ func handlerFn(ctx context.Context, event events.APIGatewayProxyRequest) (*api.A
 		return nil, err
 	}
 
-	resp, err := dispatcher.DeleteLeague(deleteLeagueRequest)
+	resp, err := service.DeleteLeague(deleteLeagueRequest)
 
 	if err != nil {
 		return nil, err

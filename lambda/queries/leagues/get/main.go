@@ -28,7 +28,7 @@ func handlerFn(ctx context.Context, event events.APIGatewayProxyRequest) (*api.A
 
 	defer persistence.CloseConnection(db)
 
-	dispatcher := leagues.NewGetByIDDispatcher(db)
+	service := leagues.NewService(db)
 
 	getLeagueRequest, err := leagues.NewGetByIDRequest(event)
 
@@ -36,7 +36,7 @@ func handlerFn(ctx context.Context, event events.APIGatewayProxyRequest) (*api.A
 		return nil, err
 	}
 
-	resp, err := dispatcher.GetLeagueByID(getLeagueRequest)
+	resp, err := service.GetLeagueByID(getLeagueRequest)
 
 	if err != nil {
 		return nil, err

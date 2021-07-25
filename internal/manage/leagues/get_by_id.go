@@ -2,26 +2,12 @@ package leagues
 
 import (
 	"golang-serverless-cdk-template/internal/api"
-	"golang-serverless-cdk-template/internal/persistence"
 
 	"github.com/aws/aws-lambda-go/events"
 	validator "github.com/go-playground/validator/v10"
 	"github.com/google/uuid"
 	"github.com/sirupsen/logrus"
-	"gorm.io/gorm"
 )
-
-type GetByIDDispatcher struct {
-	leagueRepo *persistence.LeagueRepository
-	validate   *validator.Validate
-}
-
-func NewGetByIDDispatcher(db *gorm.DB) *GetByIDDispatcher {
-	return &GetByIDDispatcher{
-		leagueRepo: persistence.NewLeagueRepository(db),
-		validate:   validator.New(),
-	}
-}
 
 type GetByIDRequest struct {
 	ID uuid.UUID `json:"id" validate:"required"`
@@ -44,7 +30,7 @@ func NewGetByIDRequest(event events.APIGatewayProxyRequest) (*GetByIDRequest, er
 	return &request, nil
 }
 
-func (s *GetByIDDispatcher) GetLeagueByID(req *GetByIDRequest) (*GetByIDResponse, error) {
+func (s *Service) GetLeagueByID(req *GetByIDRequest) (*GetByIDResponse, error) {
 
 	err := s.validate.Struct(req)
 

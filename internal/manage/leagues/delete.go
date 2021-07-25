@@ -3,27 +3,13 @@ package leagues
 import (
 	"encoding/json"
 	"golang-serverless-cdk-template/internal/api"
-	"golang-serverless-cdk-template/internal/persistence"
 	"time"
 
 	"github.com/aws/aws-lambda-go/events"
 	validator "github.com/go-playground/validator/v10"
 	"github.com/google/uuid"
 	"github.com/sirupsen/logrus"
-	"gorm.io/gorm"
 )
-
-type DeleteDispatcher struct {
-	leagueRepo *persistence.LeagueRepository
-	validate   *validator.Validate
-}
-
-func NewDeleteDispatcher(db *gorm.DB) *DeleteDispatcher {
-	return &DeleteDispatcher{
-		leagueRepo: persistence.NewLeagueRepository(db),
-		validate:   validator.New(),
-	}
-}
 
 type DeleteRequest struct {
 	ID uuid.UUID `json:"id" validate:"required"`
@@ -46,7 +32,7 @@ func NewDeleteRequest(event events.APIGatewayProxyRequest) (*DeleteRequest, erro
 	return &request, nil
 }
 
-func (s *DeleteDispatcher) DeleteLeague(req *DeleteRequest) (*DeleteResponse, error) {
+func (s *Service) DeleteLeague(req *DeleteRequest) (*DeleteResponse, error) {
 
 	err := s.validate.Struct(req)
 

@@ -9,20 +9,7 @@ import (
 	"github.com/aws/aws-lambda-go/events"
 	validator "github.com/go-playground/validator/v10"
 	"github.com/sirupsen/logrus"
-	"gorm.io/gorm"
 )
-
-type CreateDispatcher struct {
-	leagueRepo *persistence.LeagueRepository
-	validate   *validator.Validate
-}
-
-func NewCreateDispatcher(db *gorm.DB) *CreateDispatcher {
-	return &CreateDispatcher{
-		leagueRepo: persistence.NewLeagueRepository(db),
-		validate:   validator.New(),
-	}
-}
 
 type CreateRequest struct {
 	League *CreateValues `json:"league" validate:"required"`
@@ -44,7 +31,7 @@ func NewCreateRequest(event events.APIGatewayProxyRequest) (*CreateRequest, erro
 	return &request, nil
 }
 
-func (s *CreateDispatcher) CreateLeague(req *CreateRequest) (*CreateResponse, error) {
+func (s *Service) CreateLeague(req *CreateRequest) (*CreateResponse, error) {
 
 	err := s.validate.Struct(req)
 

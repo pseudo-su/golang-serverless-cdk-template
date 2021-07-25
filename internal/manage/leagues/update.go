@@ -9,20 +9,7 @@ import (
 	validator "github.com/go-playground/validator/v10"
 	"github.com/google/uuid"
 	"github.com/sirupsen/logrus"
-	"gorm.io/gorm"
 )
-
-type UpdateDispatcher struct {
-	leagueRepo *persistence.LeagueRepository
-	validate   *validator.Validate
-}
-
-func NewUpdateDispatcher(db *gorm.DB) *UpdateDispatcher {
-	return &UpdateDispatcher{
-		leagueRepo: persistence.NewLeagueRepository(db),
-		validate:   validator.New(),
-	}
-}
 
 type UpdateRequest struct {
 	ID     uuid.UUID     `json:"id" validate:"required"`
@@ -45,7 +32,7 @@ func NewUpdateRequest(event events.APIGatewayProxyRequest) (*UpdateRequest, erro
 	return &request, nil
 }
 
-func (s *UpdateDispatcher) UpdateLeague(req *UpdateRequest) (*UpdateResponse, error) {
+func (s *Service) UpdateLeague(req *UpdateRequest) (*UpdateResponse, error) {
 
 	err := s.validate.Struct(req)
 
