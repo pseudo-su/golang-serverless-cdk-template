@@ -10,11 +10,13 @@ import (
 
 // League schema
 type League struct {
+	// Gorm fields
 	ID        uuid.UUID `gorm:"type:uuid;default:uuid_generate_v4()"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
-	// IsDeleted   soft_delete.DeletedAt `gorm:"softDelete:flag"`
-	DeletedAt   gorm.DeletedAt `gorm:"index"`
-	Name        string         `json:"name"`
-	Description string         `json:"description"`
+	DeletedAt gorm.DeletedAt `gorm:"index"`
+
+	// Fields
+	Name        string `json:"name"`
+	Description string `json:"description"`
 }

@@ -9,11 +9,14 @@ const (
 	RequestValidationError = "RequestValidationError"
 )
 
+type ErrorStatus int
+type ErrorCode string
+
 type Error interface {
 	error
 
-	Status() int
-	Code() string
+	Status() ErrorStatus
+	Code() ErrorCode
 	Title() string
 	Detail() string
 
@@ -26,30 +29,30 @@ type Errorer interface {
 	APIErrors() []Error
 }
 
-func NewBaseError(err error, status int, code string, title string) *BaseError {
+func NewBaseError(err error, status ErrorStatus, code ErrorCode, title string) *BaseError {
 	return &BaseError{
 		originalError: err,
-		status:        status,
-		code:          code,
+		status:        ErrorStatus(status),
+		code:          ErrorCode(code),
 		title:         title,
 	}
 }
 
 type BaseError struct {
 	originalError error
-	status        int
-	code          string
+	status        ErrorStatus
+	code          ErrorCode
 	title         string
 }
 
 var _ Error = &BaseError{}
 var _ Errorer = &BaseError{}
 
-func (e *BaseError) Status() int {
+func (e *BaseError) Status() ErrorStatus {
 	return e.status
 }
 
-func (e *BaseError) Code() string {
+func (e *BaseError) Code() ErrorCode {
 	return e.code
 }
 

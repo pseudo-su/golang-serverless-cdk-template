@@ -5,9 +5,9 @@ import (
 )
 
 const (
-	ValidationErrorStatus = 400
-	ValidationErrorCode   = "ValidationError"
-	ValidationErrorTitle  = "Validation error"
+	ValidationErrorStatus ErrorStatus = 400
+	ValidationErrorCode   ErrorCode   = "ValidationError"
+	ValidationErrorTitle              = "Validation error"
 )
 
 type ValidationError struct {

@@ -69,13 +69,13 @@ func (builder *APIResponseBuilder) Error(err Errorer) *APIResponseBuilder {
 	apiErrors := err.APIErrors()
 	for _, apiError := range apiErrors {
 		// Set status code if higher than existing HTTP status
-		if apiError.Status() > builder.Resp.StatusCode {
-			builder.StatusCode(apiError.Status())
+		if int(apiError.Status()) > builder.Resp.StatusCode {
+			builder.StatusCode(int(apiError.Status()))
 		}
 		// add Error to error array
 		builder.Resp.Body.Errors = append(builder.Resp.Body.Errors, APIResponseError{
 			Status: fmt.Sprint(apiError.Status()),
-			Code:   apiError.Code(),
+			Code:   string(apiError.Code()),
 			Title:  apiError.Title(),
 			Detail: apiError.Detail(),
 		})
