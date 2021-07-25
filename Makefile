@@ -16,6 +16,11 @@ deps.update:
 	# Update package.json dependencies and lockfile
 	npm update;
 
+.PHONY: codegen
+codegen.diagram:
+	npx cfn-dia draw.io --output-file docs/cdk-diagram.drawio --ci-mode
+	/Applications/draw.io.app/Contents/MacOS/draw.io --export -o docs/cdk-diagram.png docs/cdk-diagram.drawio
+
 .PHONY: verify
 verify:
 	# Lint go files

@@ -7,6 +7,7 @@
     "@aws-cdk/aws-lambda": "1.115.0",
     "@aws-cdk/aws-lambda-go": "1.115.0",
     "@aws-cdk/core": "1.115.0",
+    "@mhlabs/cfn-diagram": "^1.1.24",
     "@stoplight/spectral": "^5.9.1",
     "aws-cdk": "1.115.0",
     "dotenv-cli": "^4.0.0"
