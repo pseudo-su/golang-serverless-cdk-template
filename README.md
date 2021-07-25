@@ -1,5 +1,13 @@
 # Golang serverless CDK template
 
+## TODO
+
+Some parts of this template still need to be improved upon
+
+- examples of handling known errors from the `persistence` package (eg 404 not found)
+- Better approach to running database migrations (currnetly implemented at a HTTP endpoint on the service to "Automigrate" the schema)
+- Simplify the `manage/leagues` package to have a single service with multiple methods
+
 ## Overview
 
 This project contains an example application packaged using the [AWS CDK](https://docs.aws.amazon.com/cdk/latest/guide/cli.html) that deploys an AWS Serverless Web API application using [AWS API Gateway](https://aws.amazon.com/api-gateway/).
