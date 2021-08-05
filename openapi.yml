@@ -33,6 +33,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/SearchLeaguesResponseBody"
+        "400":
+          description: Bad request error response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultErrorResponseBody"
+              example:
+                meta: {}
+                data: null
+                errors:
+                  - code: "BadRequest"
+                    status: "400"
+                    title: "Bad request"
+                    detail: "Query param page=`0` is not valid"
         default:
           description: Error response
           content:
@@ -64,6 +78,34 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/GetLeagueByIdResponseBody"
+        "400":
+          description: Bad request error response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultErrorResponseBody"
+              example:
+                meta: {}
+                data: null
+                errors:
+                  - code: "BadRequest"
+                    status: "400"
+                    title: "Bad request"
+                    detail: "URL Parameter leagueId=`-1` is not valid"
+        "404":
+          description: Not found error response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultErrorResponseBody"
+              example:
+                meta: {}
+                data: null
+                errors:
+                  - code: "NotFound"
+                    status: "404"
+                    title: "Not found"
+                    detail: "League with id=4 not found"
         default:
           description: Error response
           content:
