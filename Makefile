@@ -1,4 +1,8 @@
-.PHONY: deps.install
+include help.mk
+
+### Manage Dependencies
+
+## Install dependencies
 deps.install:
 	# install golanglint-ci into ./bin
 	curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s v1.41.1
@@ -6,67 +10,96 @@ deps.install:
 	go mod download
 	# Install NodeJS dependences
 	npm ci
+	touch ./node_modules/go.mod
+.PHONY: deps.install
 
-.PHONY: deps.update
+## Update dependencies
 deps.update:
 	# Update go dependencies in go.mod and go.sum
-	go get -u ./lambda/...
+	go get -u ./cmd/...
 	go get -u ./internal/...
 	go mod tidy
 	# Update package.json dependencies and lockfile
 	npm update;
+	touch ./node_modules/go.mod
+.PHONY: deps.update
 
-.PHONY: verify
+### Code verification and static analysis
+
+## Run code verification
 verify:
 	# Lint go files
+	./bin/golangci-lint --version
 	./bin/golangci-lint run ./...
 	# Lint OpenAPI spec
+	./node_modules/.bin/spectral --version
 	./node_modules/.bin/spectral lint --fail-severity=warn ./openapi.yml
+.PHONY: verify
 
-.PHONY: verify.fix
+## Run code verification and autofix issues where possible
 verify.fix:
 	echo 'TODO: add go code verification autofixing where possible'
+.PHONY: verify.fix
 
+### Testing
+
+## Run tests
+test: test.unit
 .PHONY: test
-test:
-	npx dotenv -c -- go test -v -p=1 ./lambda/...
-	npx dotenv -c -- go test -v -p=1 ./internal/...
 
-.PHONY: devstack.start
+## Run tests and output reports
+test.report: test.unit.report
+.PHONY: test.report
+
+## Run unit tests
+test.unit:
+	go run github.com/joho/godotenv/cmd/godotenv@v1.4.0 -f .env.test go test -count=1 -v -p=1  ./internal/... ./cmd/...
+.PHONY: test.unit
+
+## Run unit tests and output reports
+test.unit.report:
+	mkdir -p reports
+	go run github.com/joho/godotenv/cmd/godotenv@v1.4.0 -f .env.test go test -json -count=1 -coverprofile=reports/test-unit.out -v -p 5 ./internal/... ./cmd/... > reports/test-unit.json
+.PHONY: test.unit.report
+
+### Devstack
+
+## Start the devstack
 devstack.start:
 	docker-compose up -d --remove-orphans devstack
+.PHONY: devstack.start
 
-.PHONY: devstack.stop
+## Stop the devstack
 devstack.stop:
 	docker-compose down --remove-orphans
+.PHONY: devstack.stop
 
-.PHONY: devstack.clean
+## Clean/reset the devstack
 devstack.clean:
-	rm -rf ./devstack/postgres/data/*
+	docker-compose down --remove-orphans --volumes
 	docker-compose rm --stop --force
+.PHONY: devstack.clean
 
-.PHONY: devstack.restart
+## Restart the devstack
 devstack.restart: devstack.stop devstack.start
+.PHONY: devstack.restart
 
+## Clean/reset and restart the devstack
+devstack.recreate: devstack.clean devstack.start
 .PHONY: devstack.recreate
-devstack.recreate: devstack.clean devstack.restart
 
-.PHONY: dev.start
-dev.start:
-	if [ -z "${STAGE}" ]; then echo "STAGE environment variable not set"; exit 1; fi
-	npx sst start --stage ${STAGE}
+### Dev
 
-.PHONY: dev.stop
-dev.stop:
-	if [ -z "${STAGE}" ]; then echo "STAGE environment variable not set"; exit 1; fi
-	npx sst remove --stage ${STAGE}
 
-.PHONY: dev.clean
-dev.clean:
-	rm -rf .build/
+## Start local development server
+dev:
+	./node_modules/.bin/cdk synth --no-staging 'Dev/*' > template.yaml
+	sam local start-api
+.PHONY: dev
 
-.PHONY: dev.restart
-dev.restart: dev.stop dev.start
+### Deployment
 
-.PHONY: dev.recreate
-dev.recreate: dev.clean dev.restart
+## Deploy dev stage
+deploy.dev:
+	./node_modules/.bin/cdk deploy --app=cdk.out 'Dev/*'
+.PHONY: deploy.dev

@@ -30,7 +30,7 @@ services:
       - ./devstack/.env
     volumes:
       - ./devstack/postgres/init:/docker-entrypoint-initdb.d
-      - ./devstack/postgres/data:/var/lib/postgresql/data/ # persist data even if container shuts down
+      - postgres_data:/var/lib/postgresql/data # persist data even if container shuts down
 
   pgadmin:
     container_name: gosls_pgadmin
@@ -43,3 +43,6 @@ services:
       - 5050:5050
     volumes:
       - "./devstack/pgadmin/config/servers.json:/pgadmin4/servers.json"
+
+volumes:
+  postgres_data:

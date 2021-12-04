@@ -1,14 +1,22 @@
 {
   "devDependencies": {
-    "@aws-cdk/assert": "1.105.0",
-    "@aws-cdk/core": "1.105.0",
-    "@serverless-stack/cli": "0.31.0",
-    "@serverless-stack/resources": "0.31.0",
     "@stoplight/spectral": "^5.9.1",
-    "dotenv-cli": "^4.0.0"
+    "@types/jest": "^26.0.10",
+    "@types/node": "10.17.27",
+    "aws-cdk": "2.0.0",
+    "dotenv-cli": "^4.0.0",
+    "jest": "^26.4.2",
+    "ts-jest": "^26.2.0",
+    "ts-node": "^9.0.0",
+    "typescript": "~3.9.7",
+    "@aws-cdk/aws-apigatewayv2-alpha": "^2.0.0-alpha.11",
+    "@aws-cdk/aws-apigatewayv2-authorizers-alpha": "^2.0.0-alpha.11",
+    "@aws-cdk/aws-apigatewayv2-integrations-alpha": "^2.0.0-alpha.11",
+    "@aws-cdk/aws-lambda-go-alpha": "^2.0.0-alpha.11",
+    "constructs": "^10.0.0"
   },
   "engines": {
-    "node": "^14.15",
+    "node": "^16.13",
     "npm": ">=6",
     "yarn": "DO_NOT_USE"
   }

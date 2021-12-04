@@ -7,8 +7,14 @@
 # dotenv files
 /.env*.local
 
-# SST framework
-.build
+# Build files
+/.build
+/cdk.out
+/template.yaml
+
+# CDK asset staging directory
+/.cdk.staging
+/cdk.out
 
 # NodeJS
 node_modules/
