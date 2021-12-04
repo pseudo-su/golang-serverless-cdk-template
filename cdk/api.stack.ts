@@ -1,9 +1,10 @@
-import { AddRoutesOptions, HttpApi, HttpMethod } from '@aws-cdk/aws-apigatewayv2';
-import { HttpLambdaAuthorizer } from "@aws-cdk/aws-apigatewayv2-authorizers";
-import { LambdaProxyIntegration, LambdaProxyIntegrationProps } from '@aws-cdk/aws-apigatewayv2-integrations';
-import { GoFunction, GoFunctionProps } from '@aws-cdk/aws-lambda-go';
-import * as cdk from '@aws-cdk/core';
-import { CfnOutput } from '@aws-cdk/core';
+import { Stack, StackProps } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import { CfnOutput } from 'aws-cdk-lib';
+import { AddRoutesOptions, HttpApi, HttpMethod } from '@aws-cdk/aws-apigatewayv2-alpha';
+import { HttpLambdaAuthorizer } from "@aws-cdk/aws-apigatewayv2-authorizers-alpha";
+import { LambdaProxyIntegration, LambdaProxyIntegrationProps } from '@aws-cdk/aws-apigatewayv2-integrations-alpha';
+import { GoFunction, GoFunctionProps } from '@aws-cdk/aws-lambda-go-alpha';
 
 type AddOperationOptions = {
   name: string;
@@ -16,12 +17,12 @@ type AddOperationOptions = {
 type RouteOptions = Omit<AddRoutesOptions, 'integration'>;
 type DefaultRouteOptions = Omit<AddRoutesOptions, 'path' | 'methods'>;
 
-export class Api extends cdk.Construct {
+export class Api extends Construct {
   api: HttpApi;
   defaultFunctionProps?: GoFunctionProps;
   defaultRouteOptions?: DefaultRouteOptions;
 
-  constructor(scope: cdk.Construct, id: string) {
+  constructor(scope: Construct, id: string) {
     super(scope, id);
 
     this.api = new HttpApi(this, "ApiGateway");
@@ -82,14 +83,14 @@ export class Api extends cdk.Construct {
   }
 }
 
-export class ApiStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, properties?: cdk.StackProps) {
+export class ApiStack extends Stack {
+  constructor(scope: Construct, id: string, properties?: StackProps) {
     super(scope, id, properties);
 
     const authorizer = new HttpLambdaAuthorizer({
       authorizerName: "UserAuthorizer",
       handler: new GoFunction(this, `UserAuthorizerFunction`, {
-        entry: "lambda/authorizer"
+        entry: "cmd/lambdas/authorizer"
       }),
     });
 
@@ -101,10 +102,10 @@ export class ApiStack extends cdk.Stack {
       routes: {
         path: '/commands/runDatabaseMigrations',
         methods: [HttpMethod.POST],
-        authorizer,
+        // authorizer,
       },
       function: {
-        entry: 'lambda/commands/runDatabaseMigrations',
+        entry: 'cmd/lambdas/commands/runDatabaseMigrations',
       },
     });
 
@@ -117,7 +118,7 @@ export class ApiStack extends cdk.Stack {
         authorizer,
       },
       function: {
-        entry: 'lambda/queries/leagues/search',
+        entry: 'cmd/lambdas/queries/leagues/search',
       },
     });
 
@@ -130,7 +131,7 @@ export class ApiStack extends cdk.Stack {
         authorizer: authorizer,
       },
       function: {
-        entry: 'lambda/queries/leagues/search',
+        entry: 'cmd/lambdas/queries/leagues/search',
       },
     });
 
@@ -143,7 +144,7 @@ export class ApiStack extends cdk.Stack {
         authorizer: authorizer,
       },
       function: {
-        entry: 'lambda/commands/createLeague',
+        entry: 'cmd/lambdas/commands/createLeague',
       },
     });
 
@@ -156,7 +157,7 @@ export class ApiStack extends cdk.Stack {
         authorizer: authorizer,
       },
       function: {
-        entry: 'lambda/commands/deleteLeague',
+        entry: 'cmd/lambdas/commands/deleteLeague',
       },
     });
 
@@ -169,7 +170,7 @@ export class ApiStack extends cdk.Stack {
         authorizer: authorizer,
       },
       function: {
-        entry: 'lambda/commands/updateLeague',
+        entry: 'cmd/lambdas/commands/updateLeague',
       },
     });
   }

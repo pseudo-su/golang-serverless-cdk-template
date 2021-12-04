@@ -1,16 +1,17 @@
 #!/usr/bin/env node
 
 import "source-map-support/register";
-import * as cdk from "@aws-cdk/core";
+import { App } from 'aws-cdk-lib';
+import { Construct } from "constructs";
 import { ApiStack } from "./api.stack";
 
 type GolangServerlessCDKTemplateProperties = {
   account: string;
 };
 
-class GolangServerlessCDKTemplate extends cdk.Construct {
+class GolangServerlessCDKTemplate extends Construct {
   constructor(
-    scope: cdk.Construct,
+    scope: Construct,
     id: string,
     properties: GolangServerlessCDKTemplateProperties
   ) {
@@ -24,7 +25,7 @@ class GolangServerlessCDKTemplate extends cdk.Construct {
   }
 }
 
-const app = new cdk.App();
+const app = new App();
 
 new GolangServerlessCDKTemplate(app, "Dev", {
   account: "067289113644",

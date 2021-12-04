@@ -16,7 +16,7 @@ deps.install:
 ## Update dependencies
 deps.update:
 	# Update go dependencies in go.mod and go.sum
-	go get -u ./lambda/...
+	go get -u ./cmd/...
 	go get -u ./internal/...
 	go mod tidy
 	# Update package.json dependencies and lockfile
@@ -53,13 +53,13 @@ test.report: test.unit.report
 
 ## Run unit tests
 test.unit:
-	go run github.com/joho/godotenv/cmd/godotenv@v1.4.0 -f .env.test go test -count=1 -v -p=1  ./internal/... ./lambda/...
+	go run github.com/joho/godotenv/cmd/godotenv@v1.4.0 -f .env.test go test -count=1 -v -p=1  ./internal/... ./cmd/...
 .PHONY: test.unit
 
 ## Run unit tests and output reports
 test.unit.report:
 	mkdir -p reports
-	go run github.com/joho/godotenv/cmd/godotenv@v1.4.0 -f .env.test go test -json -count=1 -coverprofile=reports/test-unit.out -v -p 5 ./internal/... ./lambda/... > reports/test-unit.json
+	go run github.com/joho/godotenv/cmd/godotenv@v1.4.0 -f .env.test go test -json -count=1 -coverprofile=reports/test-unit.out -v -p 5 ./internal/... ./cmd/... > reports/test-unit.json
 .PHONY: test.unit.report
 
 ### Devstack
@@ -93,12 +93,13 @@ devstack.recreate: devstack.clean devstack.start
 
 ## Start local development server
 dev:
-	sam-beta-cdk local start-api
+	./node_modules/.bin/cdk synth --no-staging 'Dev/*' > template.yaml
+	sam local start-api
 .PHONY: dev
 
 ### Deployment
 
 ## Deploy dev stage
 deploy.dev:
-	npx cdk deploy --app=cdk.out 'Dev/*'
+	./node_modules/.bin/cdk deploy --app=cdk.out 'Dev/*'
 .PHONY: deploy.dev

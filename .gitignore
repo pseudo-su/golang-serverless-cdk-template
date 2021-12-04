@@ -10,7 +10,11 @@
 # Build files
 /.build
 /cdk.out
-/.aws-sam
+/template.yaml
+
+# CDK asset staging directory
+/.cdk.staging
+/cdk.out
 
 # NodeJS
 node_modules/

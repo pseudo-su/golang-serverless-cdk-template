@@ -1,17 +1,19 @@
 {
   "devDependencies": {
-    "@aws-cdk/assert": "1.132.0",
-    "@aws-cdk/aws-apigatewayv2": "1.132.0",
-    "@aws-cdk/aws-apigatewayv2-authorizers": "^1.132.0",
-    "@aws-cdk/aws-apigatewayv2-integrations": "1.132.0",
-    "@aws-cdk/aws-lambda": "1.132.0",
-    "@aws-cdk/aws-lambda-go": "1.132.0",
-    "@aws-cdk/core": "1.132.0",
     "@stoplight/spectral": "^5.9.1",
-    "aws-cdk": "1.132.0",
+    "@types/jest": "^26.0.10",
+    "@types/node": "10.17.27",
+    "aws-cdk": "2.0.0",
     "dotenv-cli": "^4.0.0",
-    "ts-node": "^10.4.0",
-    "typescript": "^4.5.2"
+    "jest": "^26.4.2",
+    "ts-jest": "^26.2.0",
+    "ts-node": "^9.0.0",
+    "typescript": "~3.9.7",
+    "@aws-cdk/aws-apigatewayv2-alpha": "^2.0.0-alpha.11",
+    "@aws-cdk/aws-apigatewayv2-authorizers-alpha": "^2.0.0-alpha.11",
+    "@aws-cdk/aws-apigatewayv2-integrations-alpha": "^2.0.0-alpha.11",
+    "@aws-cdk/aws-lambda-go-alpha": "^2.0.0-alpha.11",
+    "constructs": "^10.0.0"
   },
   "engines": {
     "node": "^16.13",
